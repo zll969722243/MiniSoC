@@ -20,11 +20,43 @@
 6
 2
 4       //OPCODE_DISPLAY
-7
-8
+16
+80
 6       //OPCODE_ID
 4
 5
+fe      //OPCODE_SHUTDOWN
+0
+0
+0       //OPCODE_ADD            //fetch begin
+10
+2
+1       //OPCODE_SUB
+2
+3
+2       //OPCODE_MUL
+3
+4
+3       //OPCODE_DIV
+6
+2
+4       //OPCODE_DISPLAY
+16
+80
+6       //OPCODE_ID
+4
+5
+7       //OPCODE_PAUSE
+0
+0
 5       //OPCODE_JMP
 0
 2
+
+//string
+48656C6C
+6F20536F
+43212048
+656C6C6F
+20323134
+2100 

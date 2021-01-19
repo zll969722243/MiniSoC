@@ -1,7 +1,10 @@
 //log switch for debug
 
-`define CPU_FETCH_LOG_OPT           1
-`define CPU_DECODE_EXEC_LOG_OPT     1
+//`define CPU_FETCH_LOG_OPT                             1
+`define CPU_DECODE_EXEC_LOG_OPT                         1
+
+
+//=====================================================================================
 
 `ifdef CPU_FETCH_LOG_OPT
     `define CPU_FETCH_LOG_1(A)                  $display(A)                

@@ -23,7 +23,7 @@ initial
     //     $display("%h-%h",index,memory[index]);
     #20
     resetn = 1'b1;
-    #10000;
+    #100000000000000;
     $finish();
 
   end

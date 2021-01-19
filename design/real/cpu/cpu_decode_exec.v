@@ -65,17 +65,18 @@ assign newpc_o   = pc_r;
 assign isjcc_o   = isjcc_r;
 assign data_o    = data_r;
 
-assign bexec = enable_i && fetch_done_i;
-
+//assign bexec = enable_i && fetch_done_i;
+//assign bexec = fetch_done_i & enable_i;// 这边取出来的bexec不对,原因待查明,可能是与门的延迟导致的
+assign bexec = enable_i;
 assign exec_done_o = exec_done_r;
 
-always @(fetch_done_i)
-begin `CPU_DECODE_EXEC_LOG_3("[cpu_decode_exec]fetch_done_i:%b bexec:%b\n",fetch_done_i,bexec);
+always @(posedge fetch_done_i)
+begin 
+  //$display("[cpu_decode_exec]enable_i:%b,fetch_done_i:%b bexec:%b,enable_i&&fetch_done_i:%b\n",enable_i,fetch_done_i,bexec,enable_i&&fetch_done_i);
   if(bexec)
-  //if(enable_i && fetch_done_i)
     begin
       exec_done_r = 1'b0;
-      `CPU_DECODE_EXEC_LOG_2("[cpu_decode_exec]exec_done_r:%b\n",exec_done_r);
+      //`CPU_DECODE_EXEC_LOG_2("[cpu_decode_exec]exec_done_r:%b\n",exec_done_r);
       case(opcode_i[7:0])
         `OPCODE_INIT:
           begin
@@ -130,7 +131,7 @@ begin `CPU_DECODE_EXEC_LOG_3("[cpu_decode_exec]fetch_done_i:%b bexec:%b\n",fetch
             pc_r = pc_r + step_r;
             isjcc_r = 1'b0;
 
-            `CPU_DECODE_EXEC_LOG_1("[cpu_decode_exec]exec display \n");
+            `CPU_DECODE_EXEC_LOG_3("[cpu_decode_exec]exec display,string size-%h offset:%h\n",opa_i,opb_i);
           end        
         `OPCODE_JMP:
           begin
@@ -148,16 +149,31 @@ begin `CPU_DECODE_EXEC_LOG_3("[cpu_decode_exec]fetch_done_i:%b bexec:%b\n",fetch
             pc_r = pc_r + step_r;
             isjcc_r = 1'b0;
 
-            `CPU_DECODE_EXEC_LOG_1("[cpu_decode_exec]exec id \n");
-            
+            `CPU_DECODE_EXEC_LOG_2("[cpu_decode_exec]exec get id,id:%h \n",data_r);
           end
+        `OPCODE_PAUSE:
+          begin
+            step_r = `FETCH_STEP_SIZE;
+            pc_r = pc_r + step_r;
+            isjcc_r = 1'b0;
+            `CPU_DECODE_EXEC_LOG_1("[cpu_decode_exec]exec pause, ================sleep for a while,input cont can continue run ================\n");
+            $stop();
+          end  
+        `OPCODE_SHUTDOWN:
+          begin
+            step_r = `FETCH_STEP_SIZE;
+            pc_r = pc_r + step_r;
+            isjcc_r = 1'b0;
+            `CPU_DECODE_EXEC_LOG_1("[cpu_decode_exec]exec shutdown, =============================see you next time ============================\n");
+            $finish();
+          end     
         default:
             `CPU_DECODE_EXEC_LOG_1("[cpu_decode_exec]invalid instruct\n");
 
       endcase
 
       exec_done_r = 1'b1;
-      `CPU_DECODE_EXEC_LOG_2("[cpu_decode_exec]exec_done_r:%b\n",exec_done_r);
+      //`CPU_DECODE_EXEC_LOG_2("[cpu_decode_exec]exec_done_r:%b\n",exec_done_r);
     end
   else
     begin

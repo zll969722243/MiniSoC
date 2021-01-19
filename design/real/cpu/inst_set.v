@@ -7,12 +7,13 @@
 `define OPCODE_JMP         8'h05
 `define OPCODE_ID          8'h06
 `define OPCODE_PAUSE       8'h07
-//add any other instruct here!
 
+//add any other instruct here!
+`define OPCODE_SHUTDOWN    8'hfe
 `define OPCODE_INIT        8'hff
 
 //定义起始取指地址
-`define FETCH_START_ADDR   32'h00       
+`define FETCH_START_ADDR   32'h54       
 
 
 //我这里自定义的指令集为:
