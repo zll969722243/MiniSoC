@@ -1,0 +1,76 @@
+module ahb_slave_sram_top 
+(
+    //input
+    input   wire           hclk_i,
+    input   wire           hresetn_i,
+    input   wire           hsel_i,
+    input   wire[31:0]     haddr_i,
+    input   wire           hwrite_i,
+    input   wire[1:0]      htrans_i,
+    input   wire[2:0]      hsize_i,
+    input   wire[2:0]      hburst_i,
+    input   wire[31:0]     hwdata_i,
+
+    input   wire[3:0]      hmaster_i,
+    input   wire           hmastlock_i,
+
+    //output 
+    output  wire[31:0]     hrdata_o,
+    output  wire           hready_o,
+    output  wire[1:0]      hresp_o,
+    output  wire[15:0]     hsplit_o
+);
+
+
+parameter   BITS = 32;
+parameter   WORD_DEPTH = 16384;
+parameter   ADDR_WIDTH = 14;
+parameter   WEN_WIDTH = 32;
+
+//declare
+wire                    chip_en;
+wire                    write_en;
+wire [WEN_WIDTH-1:0]    bist_wen;
+wire [ADDR_WIDTH-1:0]   addr;
+wire [BITS-1:0] 	    data_in;        
+wire [BITS-1:0]      	data_out;   
+
+//inst module
+ahb_slave_sram_if ahb_slave_sram_if_u1
+                            (
+                            //input
+                            .hclk_i(hclk_i),
+                            .hresetn_i(hresetn_i),
+                            .hsel_i(hsel_i),
+                            .haddr_i(haddr_i),
+                            .hwrite_i(hwrite_i),
+                            .htrans_i(htrans_i),
+                            .hsize_i(hsize_i),
+                            .hburst_i(hburst_i),
+                            .hwdata_i(hwdata_i),
+                            .hmaster_i(hmaster_i),
+                            .hmastlock_i(hmastlock_i),
+                            .hrdata_o(hrdata_o),
+                            .hready_o(hready_o),
+                            .hresp_o(hresp_o),
+                            .hsplit_o(hsplit_o),
+                            .CEN_o(chip_en),
+                            .WEN_o(write_en),
+                            .BWEN_o(bist_wen),
+                            .A_o(addr),
+                            .D_o(data_in),
+                            .Q_i(data_out)
+                            );
+
+S55NLLGSPH_X512Y32D32 S55NLLGSPH_X512Y32D32_u1
+                        (
+                            .Q(data_out),
+                            .CLK(hclk_i),
+                            .CEN(chip_en),
+                            .WEN(write_en),
+                            .BWEN(bist_wen),
+                            .A(addr),
+                            .D(data_in)
+                        );
+
+endmodule //ahb_calc_top

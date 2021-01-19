@@ -1,0 +1,102 @@
+#! /c/iverilog/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-965-g55e06db6)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 9;
+:vpi_module "D:\iverilog\lib\ivl\system.vpi";
+:vpi_module "D:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "D:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "D:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "D:\iverilog\lib\ivl\va_math.vpi";
+S_0000000000f75e40 .scope module, "test_tb" "test_tb" 2 3;
+ .timescale -9 -9;
+o0000000000f76fd8 .functor BUFZ 1, C4<z>; HiZ drive
+v00000000010cb750_0 .net "a", 0 0, o0000000000f76fd8;  0 drivers
+o0000000000f77008 .functor BUFZ 1, C4<z>; HiZ drive
+v00000000010cb7f0_0 .net "b", 0 0, o0000000000f77008;  0 drivers
+o0000000000f77038 .functor BUFZ 1, C4<z>; HiZ drive
+v00000000010cb890_0 .net "c", 0 0, o0000000000f77038;  0 drivers
+v00000000010cb930_0 .var "clk", 0 0;
+v00000000010cb9d0_0 .net "d", 0 0, v0000000000f76200_0;  1 drivers
+E_00000000010cbf70 .event edge, v0000000000f435a0_0;
+S_0000000000f75fd0 .scope module, "test_u1" "test" 2 36, 3 1 0, S_0000000000f75e40;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "a_i";
+    .port_info 2 /INPUT 1 "b_i";
+    .port_info 3 /INPUT 1 "c_i";
+    .port_info 4 /OUTPUT 1 "d_o";
+v0000000000f435a0_0 .net "a_i", 0 0, o0000000000f76fd8;  alias, 0 drivers
+v0000000000f43380_0 .net "b_i", 0 0, o0000000000f77008;  alias, 0 drivers
+v0000000000f430e0_0 .net "c_i", 0 0, o0000000000f77038;  alias, 0 drivers
+v0000000000f76160_0 .net "clk", 0 0, v00000000010cb930_0;  1 drivers
+v0000000000f76200_0 .var "d_o", 0 0;
+E_00000000010cc470 .event posedge, v0000000000f76160_0;
+    .scope S_0000000000f75fd0;
+T_0 ;
+    %wait E_00000000010cc470;
+    %load/vec4 v0000000000f435a0_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %load/vec4 v0000000000f43380_0;
+    %load/vec4 v0000000000f430e0_0;
+    %add;
+    %store/vec4 v0000000000f76200_0, 0, 1;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v0000000000f43380_0;
+    %load/vec4 v0000000000f430e0_0;
+    %sub;
+    %store/vec4 v0000000000f76200_0, 0, 1;
+T_0.1 ;
+    %vpi_call 3 16 "$display", "test" {0 0 0};
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0000000000f75e40;
+T_1 ;
+    %delay 50, 0;
+    %load/vec4 v00000000010cb930_0;
+    %inv;
+    %store/vec4 v00000000010cb930_0, 0, 1;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_0000000000f75e40;
+T_2 ;
+    %vpi_call 2 15 "$display", "always-1" {0 0 0};
+T_2.0 ;
+    %load/vec4 v00000000010cb750_0;
+    %cmpi/ne 1, 0, 1;
+    %jmp/0xz T_2.1, 6;
+    %wait E_00000000010cbf70;
+    %jmp T_2.0;
+T_2.1 ;
+    %jmp T_2;
+    .thread T_2;
+    .scope S_0000000000f75e40;
+T_3 ;
+    %vpi_call 2 21 "$display", "initial-1" {0 0 0};
+    %vpi_call 2 22 "$stop" {0 0 0};
+    %end;
+    .thread T_3;
+    .scope S_0000000000f75e40;
+T_4 ;
+    %vpi_call 2 27 "$display", "initial-2" {0 0 0};
+    %end;
+    .thread T_4;
+    .scope S_0000000000f75e40;
+T_5 ;
+    %vpi_call 2 32 "$display", "always-2" {0 0 0};
+T_5.0 ;
+    %load/vec4 v00000000010cb750_0;
+    %cmpi/ne 1, 0, 1;
+    %jmp/0xz T_5.1, 6;
+    %wait E_00000000010cbf70;
+    %jmp T_5.0;
+T_5.1 ;
+    %jmp T_5;
+    .thread T_5;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    ".\test_tb.v";
+    ".\test.v";

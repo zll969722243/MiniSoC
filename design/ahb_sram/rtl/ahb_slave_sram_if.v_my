@@ -1,0 +1,150 @@
+module ahb_slave_sram_if
+#(  parameter   WIDTH        =  32,
+    parameter	BITS         =  32,
+    parameter	ADDR_WIDTH   =  14,
+    parameter   WEN_WIDTH    =  32
+)
+(
+    //input
+    input   wire                hclk_i,
+    input   wire                hresetn_i,
+    input   wire                hsel_i,
+    input   wire[WIDTH-1:0]     haddr_i,
+    input   wire                hwrite_i,
+    input   wire[1:0]           htrans_i,
+    input   wire[2:0]           hsize_i,
+    input   wire[2:0]           hburst_i,
+    input   wire[WIDTH-1:0]     hwdata_i,
+
+    input   wire[3:0]           hmaster_i,
+    input   wire                hmastlock_i,
+
+    //output 
+    output  reg[WIDTH-1:0]      hrdata_o,
+    output  wire                hready_o,
+    output  wire[1:0]           hresp_o,
+    output  wire[15:0]          hsplit_o,
+
+    //sram
+    output  wire                    CEN_o,
+    output  wire                    WEN_o,
+    output  wire[WEN_WIDTH-1:0]     BWEN_o,
+    output  wire[ADDR_WIDTH-1:0]    A_o,
+    output  wire[BITS-1:0]          D_o,
+    input   wire[BITS-1:0]      	Q_i
+);
+
+//htrans
+parameter IDLE   = 2'b00;
+parameter BUSY   = 2'b01;
+parameter NONSEQ = 2'b10;
+parameter SEQ    = 2'b11;
+
+//addr
+`define ENABLE_ADDR     32'h00
+`define OPCODE_ADDR     32'h04
+`define OPA_ADDR        32'h08
+`define OPB_ADDR        32'h0C
+`define RES_ADDR        32'h10
+
+//hresp
+`define OKAY            2'b00
+`define ERROR           2'b01
+
+//local
+wire hwrite;
+wire hread ;
+
+reg             hwrite_r;
+reg[1:0]        htrans_r;
+reg[2:0]        hsize_r;
+reg[2:0]        hburst_r;
+reg[WIDTH-1:0]  haddr_r;
+
+reg                    CEN_r;
+reg                    WEN_r;
+reg[WEN_WIDTH-1:0]     BWEN_r;
+reg[ADDR_WIDTH-1:0]    A_r;
+reg[BITS-1:0]          D_r;
+//reg[BITS-1:0]      	   Q_i
+
+//===========================================================================================
+//logic
+assign hready_o = 1'b1;
+assign hresp_o = `OKAY;
+
+assign hwrite = (hsel_i && hwrite_i && (htrans_i==NONSEQ) || (htrans_i==SEQ));
+assign hread  = hsel_i && !hwrite_i && (htrans_i==NONSEQ || htrans_i==SEQ);
+
+assign CEN_o     = CEN_r;
+assign WEN_o     = WEN_r;
+assign BWEN_o    = BWEN_r;
+assign A_o       = A_r;
+assign D_o       = D_r;
+
+//sample the master control singles
+always @(posedge hclk_i or negedge hresetn_i) 
+  begin
+    if(!hresetn_i)
+      begin
+        hwrite_r    <= 1'b0;
+        htrans_r    <= 2'b0;
+        hsize_r     <= 3'b0;
+        hburst_r    <= 3'b0;
+        haddr_r     <= 32'b0;
+      end
+    else if(hsel_i)
+      begin
+        hwrite_r    <= hwrite_i;
+        htrans_r    <= htrans_i;
+        hsize_r     <= hsize_i ;
+        hburst_r    <= hburst_i;
+        haddr_r     <= haddr_i ;
+      end
+    else
+      begin
+        hwrite_r    <= 1'b0;
+        htrans_r    <= 2'b0;
+        hsize_r     <= 3'b0;
+        hburst_r    <= 3'b0;
+      end
+  end
+
+//write or read data
+always @(posedge hclk_i or negedge hresetn_i) 
+  begin
+    if(!hresetn_i)
+      begin
+        CEN_r    <=  1'b1;
+        WEN_r    <=  1'b1;
+        BWEN_r   <=  32'b1;
+        A_r      <=  14'b0;
+        D_r      <=  32'b0;
+       
+      end
+    else if(hwrite)
+      begin 
+        CEN_r    <=  1'b0;
+        WEN_r    <=  1'b0;
+        BWEN_r   <=  32'b1;
+        A_r      <=  haddr_r[13:0];
+        D_r      <=  hwdata_i;
+      end
+    else if(hread)
+      begin
+        CEN_r    <=  1'b0;
+        WEN_r    <=  1'b1;
+        BWEN_r   <=  32'b1;
+        A_r      <=  haddr_r[13:0];
+        D_r      <=  32'b0;
+        hrdata_o <= Q_i;
+      end
+    else
+      begin
+        hrdata_o = 32'b0;
+      end  
+
+      //$display("%b,%b,%b,%b\n",hwrite, hsel_i, hwrite_i, htrans_i);
+  end
+
+endmodule

@@ -1,0 +1,5 @@
+iverilog .\top\chip_top.v .\top\chip_top_tb.v .\sram\ahb_mem.256KB.v .\sram\ismi.v .\sram\S55NLLGSPH_X512Y32D32.v .\sram\sp_64kx32m8_mem_wrapper.v .\ahb\ahb_arbiter.v .\ahb\ahb_decoder.v .\cpu\cpu_decode_exec.v .\cpu\cpu_fetch.v .\cpu\cpu_top.v
+
+vvp ./a.out
+
+gtkwave wave.vcd

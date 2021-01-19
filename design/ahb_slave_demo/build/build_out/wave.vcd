@@ -1,0 +1,299 @@
+$date
+	Mon Jan 11 09:11:54 2021
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module ahb_slave_calc_tb $end
+$var wire 1 ! hready $end
+$var wire 2 " hresp [1:0] $end
+$var wire 16 # hsplit [15:0] $end
+$var wire 32 $ operate_res [31:0] $end
+$var wire 32 % hrdata [31:0] $end
+$var reg 32 & haddr [31:0] $end
+$var reg 3 ' hburst [2:0] $end
+$var reg 1 ( hclk $end
+$var reg 4 ) hmaster [3:0] $end
+$var reg 1 * hmastlock $end
+$var reg 1 + hresetn $end
+$var reg 1 , hsel $end
+$var reg 3 - hsize [2:0] $end
+$var reg 2 . htrans [1:0] $end
+$var reg 32 / hwdata [31:0] $end
+$var reg 1 0 hwrite $end
+$var reg 32 1 read_data [31:0] $end
+$scope module ahb_calc_top_u1 $end
+$var wire 32 2 haddr_i [31:0] $end
+$var wire 3 3 hburst_i [2:0] $end
+$var wire 1 ( hclk_i $end
+$var wire 4 4 hmaster_i [3:0] $end
+$var wire 1 * hmastlock_i $end
+$var wire 1 ! hready_o $end
+$var wire 1 + hresetn_i $end
+$var wire 2 5 hresp_o [1:0] $end
+$var wire 1 , hsel_i $end
+$var wire 3 6 hsize_i [2:0] $end
+$var wire 16 7 hsplit_o [15:0] $end
+$var wire 2 8 htrans_i [1:0] $end
+$var wire 32 9 hwdata_i [31:0] $end
+$var wire 1 0 hwrite_i $end
+$var wire 32 : operate_res [31:0] $end
+$var wire 16 ; operate_b [15:0] $end
+$var wire 16 < operate_a [15:0] $end
+$var wire 2 = opcode [1:0] $end
+$var wire 32 > hrdata_o [31:0] $end
+$var wire 1 ? enable $end
+$scope module ahb_slave_calc_u1 $end
+$var wire 16 @ operate_b_i [15:0] $end
+$var wire 16 A operate_a_i [15:0] $end
+$var wire 2 B opcode_i [1:0] $end
+$var wire 1 ? enable_i $end
+$var reg 32 C operate_res_o [31:0] $end
+$upscope $end
+$scope module ahb_slave_if_u1 $end
+$var wire 1 ? enable_o $end
+$var wire 32 D haddr_i [31:0] $end
+$var wire 3 E hburst_i [2:0] $end
+$var wire 1 ( hclk_i $end
+$var wire 4 F hmaster_i [3:0] $end
+$var wire 1 * hmastlock_i $end
+$var wire 1 G hread $end
+$var wire 1 ! hready_o $end
+$var wire 1 + hresetn_i $end
+$var wire 2 H hresp_o [1:0] $end
+$var wire 1 , hsel_i $end
+$var wire 3 I hsize_i [2:0] $end
+$var wire 16 J hsplit_o [15:0] $end
+$var wire 2 K htrans_i [1:0] $end
+$var wire 32 L hwdata_i [31:0] $end
+$var wire 1 M hwrite $end
+$var wire 1 0 hwrite_i $end
+$var wire 2 N opcode_o [1:0] $end
+$var wire 16 O operate_a_o [15:0] $end
+$var wire 16 P operate_b_o [15:0] $end
+$var reg 1 Q enable_r $end
+$var reg 32 R haddr_r [31:0] $end
+$var reg 3 S hburst_r [2:0] $end
+$var reg 32 T hrdata_o [31:0] $end
+$var reg 3 U hsize_r [2:0] $end
+$var reg 2 V htrans_r [1:0] $end
+$var reg 1 W hwrite_r $end
+$var reg 2 X opcode_r [1:0] $end
+$var reg 16 Y operate_a_r [15:0] $end
+$var reg 16 Z operate_b_r [15:0] $end
+$upscope $end
+$upscope $end
+$scope task ahb_read $end
+$var reg 32 [ addr [31:0] $end
+$var reg 32 \ data [31:0] $end
+$upscope $end
+$scope task ahb_write $end
+$var reg 32 ] addr [31:0] $end
+$var reg 32 ^ data [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b1 ^
+b0 ]
+bx \
+bx [
+b0 Z
+b0 Y
+b0 X
+0W
+b0 V
+b0 U
+bx T
+b0 S
+b0 R
+0Q
+b0 P
+b0 O
+b0 N
+0M
+b0 L
+b0 K
+bz J
+b10 I
+b0 H
+0G
+b10 F
+b0 E
+b0 D
+b0 C
+b0 B
+b0 A
+b0 @
+0?
+bx >
+b0 =
+b0 <
+b0 ;
+b0 :
+b0 9
+b0 8
+bz 7
+b10 6
+b0 5
+b10 4
+b0 3
+b0 2
+b0 1
+00
+b0 /
+b0 .
+b10 -
+0,
+0+
+1*
+b10 )
+0(
+b0 '
+b0 &
+bx %
+b0 $
+bz #
+b0 "
+1!
+$end
+#10
+1(
+#11
+1M
+b10 .
+b10 8
+b10 K
+10
+1,
+1+
+#20
+0(
+#30
+b10 U
+b10 V
+1W
+1(
+#31
+b10 ^
+b100 ]
+b1 /
+b1 9
+b1 L
+#40
+0(
+#50
+1?
+1Q
+1(
+#51
+b100 &
+b100 2
+b100 D
+#60
+0(
+#70
+b100 R
+1(
+#71
+b11 ^
+b1000 ]
+b10 /
+b10 9
+b10 L
+#80
+0(
+#90
+b10 =
+b10 B
+b10 N
+b10 X
+1(
+#91
+b1000 &
+b1000 2
+b1000 D
+#100
+0(
+#110
+b1000 R
+1(
+#111
+b100 ^
+b1100 ]
+b11 /
+b11 9
+b11 L
+#120
+0(
+#130
+b11 <
+b11 A
+b11 O
+b11 Y
+1(
+#131
+b1100 &
+b1100 2
+b1100 D
+#140
+0(
+#150
+b1100 R
+1(
+#151
+b100 /
+b100 9
+b100 L
+#160
+0(
+#170
+b1100 $
+b1100 :
+b1100 C
+b100 ;
+b100 @
+b100 P
+b100 Z
+1(
+#171
+b1000 [
+#180
+0(
+#190
+1(
+#191
+0M
+1G
+00
+b1000 &
+b1000 2
+b1000 D
+#200
+0(
+#210
+b100 %
+b100 >
+b100 T
+b1000 R
+0W
+1(
+#220
+0(
+#230
+b11 %
+b11 >
+b11 T
+1(
+#231
+b11 1
+b11 \
+#240
+0(
+#250
+1(
+#251

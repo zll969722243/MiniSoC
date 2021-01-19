@@ -1,0 +1,30 @@
+//`define OPCODE_ADD         8'h00
+//`define OPCODE_SUB         8'h01
+//`define OPCODE_MUL         8'h02
+//`define OPCODE_DIV         8'h03
+//`define OPCODE_DISPLAY     8'h04
+//`define OPCODE_JMP         8'h05
+//`define OPCODE_ID          8'h06
+
+//code
+0       //OPCODE_ADD
+10
+2
+1       //OPCODE_SUB
+2
+3
+2       //OPCODE_MUL
+3
+4
+3       //OPCODE_DIV
+6
+2
+4       //OPCODE_DISPLAY
+7
+8
+6       //OPCODE_ID
+4
+5
+5       //OPCODE_JMP
+0
+2
