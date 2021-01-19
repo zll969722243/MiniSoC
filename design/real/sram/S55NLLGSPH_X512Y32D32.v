@@ -276,7 +276,7 @@ module S55NLLGSPH_X512Y32D32(
   initial
     begin // zll add beg
     $readmemh("C:/Users/Administrator/Desktop/SoC/design/real/top/code.zll",mem_array);
-    for(index = 0; index <= 30; index = index+1)
+    for(index = 0; index <= 60; index = index+1)
         $display("%h-%h",4*index,mem_array[index]);
     end  // zll add end
 

@@ -19,9 +19,15 @@
 3       //OPCODE_DIV
 6
 2
-4       //OPCODE_DISPLAY
-16
-80
+8       //OPCODE_DISPLAY_D
+48656C6C                //Hello214
+6F323134
+8       //OPCODE_DISPLAY_D
+48656C6C                //HelloSoC
+6F536F43
+8       //OPCODE_DISPLAY_D
+48656C6C                //Hellozll
+6F7A6C6C 
 6       //OPCODE_ID
 4
 5
@@ -54,9 +60,7 @@ fe      //OPCODE_SHUTDOWN
 2
 
 //string
-48656C6C
-6F20536F
-43212048
-656C6C6F
-20323134
-2100 
+48656C6C        //Hello214
+6F323134
+48656C6C        //HelloSoC
+6F536F43

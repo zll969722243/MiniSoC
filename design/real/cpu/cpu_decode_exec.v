@@ -59,6 +59,7 @@ wire bexec;
 
 reg exec_done_r              = 1'b1;//标识是否能够取下一条指令,即当前指令执行完即可取下一条指令
 
+
 //logic
 assign step_o    = step_r;
 assign newpc_o   = pc_r;
@@ -166,7 +167,17 @@ begin
             isjcc_r = 1'b0;
             `CPU_DECODE_EXEC_LOG_1("[cpu_decode_exec]exec shutdown, =============================see you next time ============================\n");
             $finish();
-          end     
+          end  
+        `OPCODE_DISPLAY_D:
+          begin
+            //opa_i and opb_i are all the string to display.
+            //step_r = OPCODE_SIZE + OPA_SIZE + OPB_SIZE;
+            step_r = `FETCH_STEP_SIZE;
+            pc_r = pc_r + step_r;
+            isjcc_r = 1'b0;
+
+            `CPU_DECODE_EXEC_LOG_9("[cpu_decode_exec]exec display_d,string:\"%c%c%c%c%c%c%c%c!\"\n",opa_i[31:24],opa_i[23:16],opa_i[15:8],opa_i[7:0],opb_i[31:24],opb_i[23:16],opb_i[15:8],opb_i[7:0]);
+          end   
         default:
             `CPU_DECODE_EXEC_LOG_1("[cpu_decode_exec]invalid instruct\n");
 
